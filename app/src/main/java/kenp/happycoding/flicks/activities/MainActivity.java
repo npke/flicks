@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         lvMovies.setAdapter(adapter);
 
         TheMovieDbService service = TheMovieDbService.Creator.getService();
-        service.getNowPlayingMovies("a07e22bc18f5cb106bfe4cc1f83ad8ed").enqueue(new Callback<MovieResponse>() {
+        service.getNowPlayingMovies().enqueue(new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                 response.body();
