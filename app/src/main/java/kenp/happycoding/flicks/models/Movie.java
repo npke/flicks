@@ -1,5 +1,7 @@
 package kenp.happycoding.flicks.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,8 +9,13 @@ public class Movie {
 
     public static final String IMAGE_URL_BASE = "https://image.tmdb.org/t/p/w500";
 
+    @SerializedName("poster_path")
     private String mPosterUrl;
+
+    @SerializedName("title")
     private String mTitle;
+
+    @SerializedName("overview")
     private String mOverview;
 
     public Movie(String mPosterUrl, String mTitle, String mOverview) {

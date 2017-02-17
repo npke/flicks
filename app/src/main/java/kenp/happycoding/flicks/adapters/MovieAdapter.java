@@ -37,6 +37,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(getContext()).inflate(mResource, parent, false);
 
+
             viewHolder.ivPoster = (ImageView) convertView.findViewById(R.id.ivPoster);
             viewHolder.tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
             viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
