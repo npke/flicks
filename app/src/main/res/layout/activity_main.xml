@@ -4,10 +4,10 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="kenp.happycoding.flicks.MainActivity">
+    tools:context="kenp.happycoding.flicks.activities.MainActivity">
 
     <ListView
-        android:id="@+id/ivMovies"
+        android:id="@+id/lvMovies"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></ListView>
 </RelativeLayout>
