@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.ListViewCompat;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,6 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "Main Activity";
     private ListView lvMovies;
 
     @Override
@@ -32,18 +32,21 @@ public class MainActivity extends AppCompatActivity {
         final MovieAdapter adapter = new MovieAdapter(this, R.layout.item_movie, new ArrayList<Movie>());
         lvMovies.setAdapter(adapter);
 
+        getMovieList(adapter);
+    }
+
+    private void getMovieList(final MovieAdapter adapter) {
         TheMovieDbService service = TheMovieDbService.Creator.getService();
         service.getNowPlayingMovies().enqueue(new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-                response.body();
                 adapter.addAll(response.body().getResults());
                 adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Call<MovieResponse> call, Throwable t) {
-                Log.d(TAG, "onFailure: " + t.getMessage());
+                Toast.makeText(MainActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
             }
         });
     }

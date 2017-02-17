@@ -2,9 +2,6 @@ package kenp.happycoding.flicks.models;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Movie {
 
     public static final String IMAGE_URL_BASE = "https://image.tmdb.org/t/p/w500";
@@ -12,11 +9,15 @@ public class Movie {
     @SerializedName("poster_path")
     private String mPosterUrl;
 
+    @SerializedName("backdrop_path")
+    private String mLandPosterUrl;
+
     @SerializedName("title")
     private String mTitle;
 
     @SerializedName("overview")
     private String mOverview;
+
 
     public Movie(String mPosterUrl, String mTitle, String mOverview) {
         this.mPosterUrl = mPosterUrl;
@@ -28,21 +29,15 @@ public class Movie {
         return IMAGE_URL_BASE + mPosterUrl;
     }
 
+    public String getLandPosterUrl() {
+        return IMAGE_URL_BASE + mLandPosterUrl;
+    }
+
     public String getTitle() {
         return mTitle;
     }
 
     public String getOverview() {
         return mOverview;
-    }
-
-    public static List<Movie> getList() {
-        ArrayList<Movie> movies = new ArrayList<>();
-
-        for (int i = 0; i < 100; i ++) {
-            movies.add(new Movie("/qAwFbszz0kRyTuXmMeKQZCX3Q2O.jpg", "Title movie " + i, "The tender, heartbreaking story of a young man’s struggle to find himself, told across three defining chapters in his life as he experiences the ecstasy, pain, and beauty of falling in love, while grappling with his own sexuality."));
-        }
-
-        return movies;
     }
 }

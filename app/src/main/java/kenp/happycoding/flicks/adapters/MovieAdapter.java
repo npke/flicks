@@ -1,6 +1,8 @@
 package kenp.happycoding.flicks.adapters;
 
 import android.content.Context;
+import android.content.res.Configuration;
+import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,15 +19,11 @@ import kenp.happycoding.flicks.R;
 import kenp.happycoding.flicks.models.Movie;
 
 public class MovieAdapter extends ArrayAdapter<Movie> {
-    private Context mContext;
     private int mResource;
-    private List<Movie> mMovies;
 
     public MovieAdapter(Context context, int resource, List<Movie> objects) {
         super(context, resource, objects);
-        this.mContext = context;
         this.mResource = resource;
-        this.mMovies = objects;
     }
 
     @NonNull
@@ -36,7 +34,6 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(getContext()).inflate(mResource, parent, false);
-
 
             viewHolder.ivPoster = (ImageView) convertView.findViewById(R.id.ivPoster);
             viewHolder.tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
@@ -49,22 +46,30 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
         Movie movie = getItem(position);
 
-        Glide.with(getContext())
-                .load(movie.getPosterUrl())
-                .into(viewHolder.ivPoster);
-
-        viewHolder.tvTitle.setText(movie.getTitle());
-        viewHolder.tvOverview.setText(movie.getOverview());
+        bindViews(movie, viewHolder);
 
         return convertView;
     }
 
-    @Override
-    public int getCount() {
-        return super.getCount();
+    private void bindViews(Movie movie, ViewHolder viewHolder) {
+        int orientation = getContext().getResources().getConfiguration().orientation;
+
+        if (orientation != Configuration.ORIENTATION_PORTRAIT) {
+
+            Glide.with(getContext())
+                    .load(movie.getLandPosterUrl())
+                    .into(viewHolder.ivPoster);
+        } else {
+            Glide.with(getContext())
+                    .load(movie.getPosterUrl())
+                    .into(viewHolder.ivPoster);
+        }
+
+        viewHolder.tvTitle.setText(movie.getTitle());
+        viewHolder.tvOverview.setText(movie.getOverview());
     }
 
-    public class ViewHolder  {
+    public class ViewHolder {
         ImageView ivPoster;
         TextView tvTitle;
         TextView tvOverview;
