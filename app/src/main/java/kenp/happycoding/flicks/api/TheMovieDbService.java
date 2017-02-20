@@ -1,9 +1,7 @@
 package kenp.happycoding.flicks.api;
 
 import java.io.IOException;
-import java.util.List;
 
-import kenp.happycoding.flicks.models.Movie;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -13,16 +11,19 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
-import retrofit2.http.Query;
+import retrofit2.http.Path;
 
 public interface TheMovieDbService {
-    @GET("movie/now_playing")
+    @GET("now_playing")
     Call<MovieResponse> getNowPlayingMovies();
+
+    @GET("{movieId}/trailers")
+    Call<TrailerResponse> getMovieTrailers(@Path("movieId") int movieId);
 
     public static class Creator {
 
-        private static final String BASE_URL = "https://api.themoviedb.org/3/";
-        private static final String API_KEY = "a07e22bc18f5cb106bfe4cc1f83ad8ed";
+        private static final String BASE_URL = "https://api.themoviedb.org/3/movie/";
+        private static final String THEMOVIEDB_API_KEY = "a07e22bc18f5cb106bfe4cc1f83ad8ed";
 
         private static Retrofit retrofit;
         private static TheMovieDbService service;
@@ -58,7 +59,7 @@ public interface TheMovieDbService {
 
                     HttpUrl url = request.url()
                             .newBuilder()
-                            .addQueryParameter("api_key", API_KEY)
+                            .addQueryParameter("api_key", THEMOVIEDB_API_KEY)
                             .build();
 
                     request = request.newBuilder()

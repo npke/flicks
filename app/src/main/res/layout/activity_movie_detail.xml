@@ -8,25 +8,24 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="kenp.happycoding.flicks.MovieDetailActivity">
+    tools:context="kenp.happycoding.flicks.activities.MovieDetailActivity">
 
-    <ImageView
-        android:id="@+id/ivMoviePoster"
+    <com.google.android.youtube.player.YouTubePlayerView
+        android:id="@+id/youTubePlayer"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:scaleType="centerCrop"
-        tools:src="@drawable/movie_poster_land" />
+        android:layout_height="200dp" />
 
     <TextView
         android:id="@+id/tvMovieTitle"
         style="@style/Base.TextAppearance.AppCompat.Headline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ivMoviePoster"
+        android:layout_below="@+id/youTubePlayer"
         tools:text="Fifty Shades Darker" />
 
     <RatingBar
         android:id="@+id/rbMovieRating"
+        android:isIndicator="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvMovieTitle" />
