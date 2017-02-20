@@ -24,10 +24,14 @@ public class Movie implements Parcelable {
     @SerializedName("vote_average")
     private float mRating;
 
-    public Movie(String mPosterUrl, String mTitle, String mOverview, float mRating) {
+    @SerializedName("release_date")
+    private String mReleaseDate;
+
+    public Movie(String mPosterUrl, String mTitle, String mOverview, String mReleaseDate, float mRating) {
         this.mPosterUrl = mPosterUrl;
         this.mTitle = mTitle;
         this.mOverview = mOverview;
+        this.mReleaseDate = mReleaseDate;
         this.mRating = mRating;
     }
 
@@ -36,6 +40,7 @@ public class Movie implements Parcelable {
         mLandPosterUrl = in.readString();
         mTitle = in.readString();
         mOverview = in.readString();
+        mReleaseDate = in.readString();
         mRating = in.readFloat();
     }
 
@@ -71,6 +76,10 @@ public class Movie implements Parcelable {
         return mRating;
     }
 
+    public String getReleaseDate() {
+        return mReleaseDate;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -82,6 +91,7 @@ public class Movie implements Parcelable {
         parcel.writeString(mLandPosterUrl);
         parcel.writeString(mTitle);
         parcel.writeString(mOverview);
+        parcel.writeString(mReleaseDate);
         parcel.writeFloat(mRating);
     }
 }

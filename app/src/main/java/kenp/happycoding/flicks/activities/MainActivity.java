@@ -1,16 +1,20 @@
 package kenp.happycoding.flicks.activities;
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ListViewCompat;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import kenp.happycoding.flicks.MovieDetailActivity;
 import kenp.happycoding.flicks.R;
 import kenp.happycoding.flicks.adapters.MovieAdapter;
 import kenp.happycoding.flicks.api.MovieResponse;
@@ -54,6 +58,18 @@ public class MainActivity extends AppCompatActivity {
         lvMovies = (ListView) findViewById(R.id.lvMovies);
         adapter = new MovieAdapter(this, R.layout.item_movie, new ArrayList<Movie>());
         lvMovies.setAdapter(adapter);
+
+        lvMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Movie movie = adapter.getItem(i);
+
+                Intent intent = new Intent(MainActivity.this, MovieDetailActivity.class);
+                intent.putExtra("movie", movie);
+
+                startActivity(intent);
+            }
+        });
     }
 
     private void getMovieList(final MovieAdapter adapter) {
