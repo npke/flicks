@@ -18,11 +18,14 @@ public class Movie {
     @SerializedName("overview")
     private String mOverview;
 
+    @SerializedName("vote_average")
+    private float mRating;
 
-    public Movie(String mPosterUrl, String mTitle, String mOverview) {
+    public Movie(String mPosterUrl, String mTitle, String mOverview, float mRating) {
         this.mPosterUrl = mPosterUrl;
         this.mTitle = mTitle;
         this.mOverview = mOverview;
+        this.mRating = mRating;
     }
 
     public String getPosterUrl() {
@@ -39,5 +42,9 @@ public class Movie {
 
     public String getOverview() {
         return mOverview;
+    }
+
+    public float getRating() {
+        return mRating;
     }
 }

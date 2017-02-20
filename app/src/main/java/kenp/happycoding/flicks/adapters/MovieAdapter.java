@@ -19,34 +19,65 @@ import kenp.happycoding.flicks.R;
 import kenp.happycoding.flicks.models.Movie;
 
 public class MovieAdapter extends ArrayAdapter<Movie> {
-    private int mResource;
+
+    private final float MINIMUM_POPULAR_RATING = 7.0f;
+    private final int NORMAL_MOVIE = 0;
+    private final int POPULAR_MOVIE = 1;
 
     public MovieAdapter(Context context, int resource, List<Movie> objects) {
         super(context, resource, objects);
-        this.mResource = resource;
+    }
+
+    public boolean isPopularMovie(Movie movie) {
+        return movie.getRating() >= MINIMUM_POPULAR_RATING;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (isPopularMovie(getItem(position)))
+            return POPULAR_MOVIE;
+        return NORMAL_MOVIE;
     }
 
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = null;
-
-        if (convertView == null) {
-            viewHolder = new ViewHolder();
-            convertView = LayoutInflater.from(getContext()).inflate(mResource, parent, false);
-
-            viewHolder.ivPoster = (ImageView) convertView.findViewById(R.id.ivPoster);
-            viewHolder.tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
-            viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
-
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
 
         Movie movie = getItem(position);
 
-        bindViews(movie, viewHolder);
+        if (getItemViewType(position) == NORMAL_MOVIE) {
+            NormalMovieViewHolder viewHolder;
+
+            if (convertView != null && convertView.getTag() instanceof NormalMovieViewHolder) {
+                viewHolder = (NormalMovieViewHolder) convertView.getTag();
+            } else {
+                viewHolder = new NormalMovieViewHolder();
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_movie, parent, false);
+
+                viewHolder.ivPoster = (ImageView) convertView.findViewById(R.id.ivPoster);
+                viewHolder.tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
+                viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
+
+                convertView.setTag(viewHolder);
+            }
+
+            bindViews(movie, viewHolder);
+        } else {
+            PopularMovieViewHolder viewHolder;
+
+            if (convertView != null && convertView.getTag() instanceof PopularMovieViewHolder) {
+                viewHolder = (PopularMovieViewHolder) convertView.getTag();
+            } else {
+                viewHolder = new PopularMovieViewHolder();
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_movie_popular, parent, false);
+
+                viewHolder.ivPoster = (ImageView) convertView.findViewById(R.id.ivPoster);
+
+                convertView.setTag(viewHolder);
+            }
+
+            bindViews(movie, viewHolder);
+        }
 
         return convertView;
     }
@@ -54,27 +85,56 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
     private void bindViews(Movie movie, ViewHolder viewHolder) {
         int orientation = getContext().getResources().getConfiguration().orientation;
 
+        if (isPopularMovie(movie)) {
+            bindWithPopularView(movie, (PopularMovieViewHolder) viewHolder);
+
+            return;
+        }
+
+        bindWithNormalView(movie, (NormalMovieViewHolder) viewHolder, orientation);
+    }
+
+    private void bindWithNormalView(Movie movie, NormalMovieViewHolder viewHolder, int orientation) {
+        NormalMovieViewHolder normalMovieViewHolder = viewHolder;
         if (orientation != Configuration.ORIENTATION_PORTRAIT) {
 
             Glide.with(getContext())
                     .load(movie.getLandPosterUrl())
                     .placeholder(R.drawable.movie_placeholder_land)
-                    .into(viewHolder.ivPoster);
+                    .into(normalMovieViewHolder.ivPoster);
         } else {
             Glide.with(getContext())
                     .load(movie.getPosterUrl())
                     .placeholder(R.drawable.movie_placeholder)
-                    .into(viewHolder.ivPoster);
+                    .into(normalMovieViewHolder.ivPoster);
         }
 
-        viewHolder.tvTitle.setText(movie.getTitle());
-        viewHolder.tvOverview.setText(movie.getOverview());
+        normalMovieViewHolder.tvTitle.setText(movie.getTitle());
+        normalMovieViewHolder.tvOverview.setText(movie.getOverview());
+    }
+
+    private void bindWithPopularView(Movie movie, PopularMovieViewHolder viewHolder) {
+        PopularMovieViewHolder popularMovieViewHolder = viewHolder;
+
+        Glide.with(getContext())
+                .load(movie.getLandPosterUrl())
+                .placeholder(R.drawable.movie_placeholder_land)
+                .into(popularMovieViewHolder.ivPoster);
     }
 
     public class ViewHolder {
+
+    }
+
+    public class PopularMovieViewHolder extends ViewHolder {
+        ImageView ivPoster;
+    }
+
+    public class NormalMovieViewHolder extends ViewHolder {
         ImageView ivPoster;
         TextView tvTitle;
         TextView tvOverview;
     }
+
 }
 
