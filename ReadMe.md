@@ -39,7 +39,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/HT1cOIF.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://i.imgur.com/HT1cOIF.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />  
 If the gif image can not be loaded. Please visit this link [http://i.imgur.com/HT1cOIF.gif](http://i.imgur.com/HT1cOIF.gif) instead.
 
 <img src='http://i.imgur.com/eiAatM7.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
