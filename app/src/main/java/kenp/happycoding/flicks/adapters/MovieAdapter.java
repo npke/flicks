@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 import kenp.happycoding.flicks.R;
@@ -72,6 +74,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_movie_popular, parent, false);
 
                 viewHolder.ivPoster = (ImageView) convertView.findViewById(R.id.ivPoster);
+                viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
 
                 convertView.setTag(viewHolder);
             }
@@ -120,6 +123,8 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
                 .load(movie.getLandPosterUrl())
                 .placeholder(R.drawable.movie_placeholder_land)
                 .into(popularMovieViewHolder.ivPoster);
+
+        viewHolder.tvTitle.setText(movie.getTitle());
     }
 
     public class ViewHolder {
@@ -128,6 +133,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
     public class PopularMovieViewHolder extends ViewHolder {
         ImageView ivPoster;
+        TextView tvTitle;
     }
 
     public class NormalMovieViewHolder extends ViewHolder {

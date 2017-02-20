@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     android:orientation="vertical"
     android:padding="@dimen/layout_padding">
 
@@ -11,7 +12,7 @@
         android:layout_width="@dimen/cover_width_land"
         android:layout_height="@dimen/cover_height_land"
         android:layout_marginRight="@dimen/content_margin"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         tools:src="@drawable/movie_poster_land" />
 
     <TextView
@@ -21,6 +22,7 @@
         android:layout_toRightOf="@id/ivPoster"
         android:ellipsize="end"
         android:maxLines="2"
+        android:textColor="#edf1f2"
         android:textSize="@dimen/heading_1"
         android:textStyle="bold"
         tools:text="A Monster Calls" />
@@ -33,5 +35,6 @@
         android:layout_toRightOf="@id/ivPoster"
         android:ellipsize="end"
         android:maxLines="15"
+        android:textColor="#ecf0f1"
         tools:text="A boy attempts to deal with his mother's illness and the bullying of his classmates by escaping to a fantastical world." />
 </RelativeLayout>

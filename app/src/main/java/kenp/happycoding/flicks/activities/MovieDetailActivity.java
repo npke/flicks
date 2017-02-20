@@ -1,7 +1,9 @@
 package kenp.happycoding.flicks.activities;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -30,6 +32,7 @@ public class MovieDetailActivity extends YouTubeBaseActivity {
     private TextView tvMovieReleaseDate;
     private RatingBar rbMovieRating;
     private YouTubePlayerView youTubePlayerView;
+    private Toolbar toolbar;
 
     private TheMovieDbService theMovieDbService;
 
@@ -51,6 +54,8 @@ public class MovieDetailActivity extends YouTubeBaseActivity {
         tvMovieReleaseDate = (TextView) findViewById(R.id.tvReleaseDate);
         rbMovieRating = (RatingBar) findViewById(R.id.rbMovieRating);
         youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youTubePlayer);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorTitle));
     }
 
     private void getPassingMovieData() {
@@ -64,7 +69,7 @@ public class MovieDetailActivity extends YouTubeBaseActivity {
             tvMovieOverview.setText(movie.getOverview());
             tvMovieReleaseDate.setText(movie.getReleaseDate());
             rbMovieRating.setRating(movie.getRating() / 2);
-
+            toolbar.setTitle(movie.getTitle());
 
             getTrailerData(movie);
         }
@@ -95,7 +100,7 @@ public class MovieDetailActivity extends YouTubeBaseActivity {
 
             @Override
             public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-                youTubeInitializationResult.getErrorDialog(MovieDetailActivity.this, 1);
+
             }
         });
     }
