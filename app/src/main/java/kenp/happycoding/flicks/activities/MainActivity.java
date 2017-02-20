@@ -1,5 +1,6 @@
 package kenp.happycoding.flicks.activities;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ListViewCompat;
@@ -22,17 +23,37 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     private ListView lvMovies;
+    private SwipeRefreshLayout swipeRefreshLayout;
+
+    private MovieAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        lvMovies = (ListView) findViewById(R.id.lvMovies);
-        final MovieAdapter adapter = new MovieAdapter(this, R.layout.item_movie, new ArrayList<Movie>());
-        lvMovies.setAdapter(adapter);
+        setupRefreshLayout();
+
+        setupListViewAndAdapter();
 
         getMovieList(adapter);
+    }
+
+    private void setupRefreshLayout() {
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                adapter.clear();
+                getMovieList(adapter);
+            }
+        });
+    }
+
+    private void setupListViewAndAdapter() {
+        lvMovies = (ListView) findViewById(R.id.lvMovies);
+        adapter = new MovieAdapter(this, R.layout.item_movie, new ArrayList<Movie>());
+        lvMovies.setAdapter(adapter);
     }
 
     private void getMovieList(final MovieAdapter adapter) {
@@ -42,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                 adapter.addAll(response.body().getResults());
                 adapter.notifyDataSetChanged();
+
+                if (swipeRefreshLayout.isRefreshing())
+                    swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
