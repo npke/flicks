@@ -1,8 +1,11 @@
 package kenp.happycoding.flicks.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class Movie {
+public class Movie implements Parcelable {
 
     public static final String IMAGE_URL_BASE = "https://image.tmdb.org/t/p/w500";
 
@@ -28,6 +31,26 @@ public class Movie {
         this.mRating = mRating;
     }
 
+    protected Movie(Parcel in) {
+        mPosterUrl = in.readString();
+        mLandPosterUrl = in.readString();
+        mTitle = in.readString();
+        mOverview = in.readString();
+        mRating = in.readFloat();
+    }
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
+
     public String getPosterUrl() {
         return IMAGE_URL_BASE + mPosterUrl;
     }
@@ -46,5 +69,19 @@ public class Movie {
 
     public float getRating() {
         return mRating;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(mPosterUrl);
+        parcel.writeString(mLandPosterUrl);
+        parcel.writeString(mTitle);
+        parcel.writeString(mOverview);
+        parcel.writeFloat(mRating);
     }
 }
