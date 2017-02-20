@@ -58,10 +58,12 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
             Glide.with(getContext())
                     .load(movie.getLandPosterUrl())
+                    .placeholder(R.drawable.movie_placeholder_land)
                     .into(viewHolder.ivPoster);
         } else {
             Glide.with(getContext())
                     .load(movie.getPosterUrl())
+                    .placeholder(R.drawable.movie_placeholder)
                     .into(viewHolder.ivPoster);
         }
 
